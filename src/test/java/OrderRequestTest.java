@@ -1,10 +1,10 @@
-import API.UserAPI;
+import api.UserAPI;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
-import API.OrderAPI;
+import api.OrderAPI;
 import org.junit.Before;
 import org.junit.Test;
 import pojo.OrderRequest;
@@ -39,20 +39,20 @@ public class OrderRequestTest {
     public void createOrderWithAuthorizationAndIngredients() {
         userRequest = getUserRequestAllRequiredField();
         token = userAPI.createUser(userRequest)
-                .assertThat()
-                .statusCode(200)
-                .and()
-                .body("accessToken", notNullValue())
-                .extract()
-                .path("accessToken");
+           .assertThat()
+           .statusCode(200)
+           .and()
+           .body("accessToken", notNullValue())
+           .extract()
+           .path("accessToken");
 
         OrderRequest orderCreateRequest = getOrderWithIngredients();
         OrderAPI orderPageObject = new OrderAPI();
         Response response = orderPageObject.createOrderWithAuthorization(orderCreateRequest, token);
         response.then()
-                .statusCode(200)
-                .and()
-                .assertThat().body("success", equalTo(true));
+           .statusCode(200)
+           .and()
+           .assertThat().body("success", equalTo(true));
     }
 
     @Test
@@ -63,9 +63,9 @@ public class OrderRequestTest {
         OrderAPI orderAPI = new OrderAPI();
         Response response = orderAPI.createOrderWithoutAuthorization(orderCreateRequest);
         response.then()
-                .statusCode(200)
-                .and()
-                .assertThat().body("success", equalTo(true));
+           .statusCode(200)
+           .and()
+           .assertThat().body("success", equalTo(true));
     }
 
     @Test
@@ -75,20 +75,20 @@ public class OrderRequestTest {
         userRequest = getUserRequestAllRequiredField();
         ValidatableResponse vResponse = userAPI.createUser(userRequest);
         token = vResponse
-                .assertThat()
-                .statusCode(200)
-                .and()
-                .body("accessToken", notNullValue())
-                .extract()
-                .path("accessToken");
+           .assertThat()
+           .statusCode(200)
+           .and()
+           .body("accessToken", notNullValue())
+           .extract()
+           .path("accessToken");
 
         OrderRequest orderCreateRequest = getOrderWithoutIngredients();
         OrderAPI orderPageObject = new OrderAPI();
         Response response = orderPageObject.createOrderWithAuthorization(orderCreateRequest, token);
         response.then()
-                .statusCode(400)
-                .and()
-                .assertThat().body("message", equalTo("Ingredient ids must be provided"));
+           .statusCode(400)
+           .and()
+           .assertThat().body("message", equalTo("Ingredient ids must be provided"));
     }
 
     @Test
@@ -98,17 +98,17 @@ public class OrderRequestTest {
         userRequest = getUserRequestAllRequiredField();
         ValidatableResponse vResponse = userAPI.createUser(userRequest);
         token = vResponse
-                .assertThat()
-                .statusCode(200)
-                .and()
-                .body("accessToken", notNullValue())
-                .extract()
-                .path("accessToken");
+           .assertThat()
+           .statusCode(200)
+           .and()
+           .body("accessToken", notNullValue())
+           .extract()
+           .path("accessToken");
 
         OrderRequest orderCreateRequest = getOrderWithIncorrectIngredients();
         OrderAPI orderAPI = new OrderAPI();
         Response response = orderAPI.createOrderWithAuthorization(orderCreateRequest, token);
         response.then()
-                .statusCode(500);
+           .statusCode(500);
     }
 }

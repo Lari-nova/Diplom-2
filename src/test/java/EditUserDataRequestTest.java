@@ -1,4 +1,4 @@
-import API.UserAPI;
+import api.UserAPI;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -22,21 +22,21 @@ public class EditUserDataRequestTest {
         userAPI = new UserAPI();
         UserRequest userRequest = getUserRequestAllRequiredField();
         token = userAPI.createUser(userRequest)
-                .assertThat()
-                .statusCode(SC_OK)
-                .and()
-                .body("success", is(true))
-                .extract()
-                .path("accessToken");
+           .assertThat()
+           .statusCode(SC_OK)
+           .and()
+           .body("success", is(true))
+           .extract()
+           .path("accessToken");
     }
 
     @After
     public void tearDown() {
         if (token != null) {
             userAPI.deleteUser(token)
-                    .assertThat()
-                    .statusCode(SC_ACCEPTED)
-                    .body("success", equalTo(true));
+               .assertThat()
+               .statusCode(SC_ACCEPTED)
+               .body("success", equalTo(true));
         }
     }
 
@@ -47,10 +47,10 @@ public class EditUserDataRequestTest {
         String email = String.format("%s@yandex.ru", RandomStringUtils.randomAlphabetic(6).toLowerCase());
         UserRequest userEditRequest = getEditUserEmailRequest(email);
         userAPI.editUserWithAuthorization(userEditRequest, token)
-                .assertThat()
-                .statusCode(SC_OK)
-                .and()
-                .body("user.email", equalTo(email));
+           .assertThat()
+           .statusCode(SC_OK)
+           .and()
+           .body("user.email", equalTo(email));
     }
 
     @Test
@@ -59,10 +59,10 @@ public class EditUserDataRequestTest {
     public void nameShouldBeChangedTest() {
         UserRequest userEditRequest = getEditUserNameRequest("ivan");
         userAPI.editUserWithAuthorization(userEditRequest, token)
-                .assertThat()
-                .statusCode(SC_OK)
-                .and()
-                .body("user.name", equalTo("ivan"));
+           .assertThat()
+           .statusCode(SC_OK)
+           .and()
+           .body("user.name", equalTo("ivan"));
     }
 
     @Test
@@ -71,8 +71,8 @@ public class EditUserDataRequestTest {
     public void passwordShouldBeChangedTest() {
         UserRequest userEditRequest = getEditUserPasswordRequest("qwerty123");
         userAPI.editUserWithAuthorization(userEditRequest, token)
-                .assertThat()
-                .statusCode(SC_OK);
+           .assertThat()
+           .statusCode(SC_OK);
     }
 
     @Test
@@ -82,8 +82,8 @@ public class EditUserDataRequestTest {
         String email = String.format("%s@yandex.ru", RandomStringUtils.randomAlphabetic(6));
         UserRequest userEditRequest = getEditUserEmailRequest(email);
         userAPI.editUserWithoutAuthorization(userEditRequest)
-                .assertThat()
-                .statusCode(SC_UNAUTHORIZED);
+           .assertThat()
+           .statusCode(SC_UNAUTHORIZED);
     }
 
     @Test
@@ -92,8 +92,8 @@ public class EditUserDataRequestTest {
     public void nameShouldNotBeChangedTest() {
         UserRequest userEditRequest = getEditUserNameRequest("ivan");
         userAPI.editUserWithoutAuthorization(userEditRequest)
-                .assertThat()
-                .statusCode(SC_UNAUTHORIZED);
+           .assertThat()
+           .statusCode(SC_UNAUTHORIZED);
     }
 
     @Test
@@ -102,7 +102,7 @@ public class EditUserDataRequestTest {
     public void passwordShouldNotBeChangedTest() {
         UserRequest userEditRequest = getEditUserPasswordRequest("qwerty123");
         userAPI.editUserWithoutAuthorization(userEditRequest)
-                .assertThat()
-                .statusCode(SC_UNAUTHORIZED);
+           .assertThat()
+           .statusCode(SC_UNAUTHORIZED);
     }
 }

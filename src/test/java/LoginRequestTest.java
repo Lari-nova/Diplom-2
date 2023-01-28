@@ -6,7 +6,7 @@ import org.junit.Test;
 import pojo.LoginRequest;
 import pojo.UserRequest;
 import test_data.LoginRequestTestData;
-import API.UserAPI;
+import api.UserAPI;
 
 import static org.apache.http.HttpStatus.*;
 import static org.hamcrest.Matchers.equalTo;
@@ -39,12 +39,12 @@ public class LoginRequestTest {
 
         LoginRequest loginRequest = LoginRequestTestData.from(userRequest);
         userAPI.userLogin(loginRequest)
-                .assertThat()
-                .statusCode(SC_OK)
-                .and()
-                .body("success", equalTo(true))
-                .extract()
-                .path("accessToken");
+           .assertThat()
+           .statusCode(SC_OK)
+           .and()
+           .body("success", equalTo(true))
+           .extract()
+           .path("accessToken");
     }
 
     @Test
@@ -53,8 +53,8 @@ public class LoginRequestTest {
     public void courierAuthorizationWithoutRequiredFieldInRequest() {
         LoginRequest loginRequest = requestWithoutRequiredField();
         userAPI.userLogin(loginRequest)
-                .statusCode(SC_UNAUTHORIZED)
-                .and()
-                .assertThat().body("message", equalTo("email or password are incorrect"));
+           .statusCode(SC_UNAUTHORIZED)
+           .and()
+           .assertThat().body("message", equalTo("email or password are incorrect"));
     }
 }

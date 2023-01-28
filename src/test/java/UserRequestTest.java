@@ -1,4 +1,4 @@
-import API.UserAPI;
+import api.UserAPI;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
@@ -24,9 +24,9 @@ public class UserRequestTest {
     public void tearDown() {
         if (token != null) {
             userAPI.deleteUser(token)
-                    .assertThat()
-                    .statusCode(SC_ACCEPTED)
-                    .body("success", is(true));
+               .assertThat()
+               .statusCode(SC_ACCEPTED)
+               .body("success", is(true));
         }
     }
 
@@ -36,13 +36,12 @@ public class UserRequestTest {
     public void createUserTest() {
         UserRequest userRequest = getUserRequestAllRequiredField();
         token = userAPI.createUser(userRequest)
-                .assertThat()
-                .statusCode(SC_OK)
-                .and()
-                .body("success", equalTo(true))
-                .extract()
-                .path("accessToken");
-
+           .assertThat()
+           .statusCode(SC_OK)
+           .and()
+           .body("success", equalTo(true))
+           .extract()
+           .path("accessToken");
     }
 
     @Test
@@ -51,19 +50,19 @@ public class UserRequestTest {
     public void userMustNotBeCreatedLoginIsNotUniqueTest() {
         UserRequest userRequest = getUserRequestAllRequiredField();
         token = userAPI.createUser(userRequest)
-                .assertThat()
-                .statusCode(SC_OK)
-                .and()
-                .body("success", equalTo(true))
-                .extract()
-                .path("accessToken");
+           .assertThat()
+           .statusCode(SC_OK)
+           .and()
+           .body("success", equalTo(true))
+           .extract()
+           .path("accessToken");
         userAPI.createUser(userRequest)
-                .assertThat()
-                .statusCode(SC_FORBIDDEN)
-                .and()
-                .body("success", equalTo(false))
-                .and()
-                .body("message", equalTo("User already exists"));
+           .assertThat()
+           .statusCode(SC_FORBIDDEN)
+           .and()
+           .body("success", equalTo(false))
+           .and()
+           .body("message", equalTo("User already exists"));
     }
 
     @Test
@@ -73,14 +72,14 @@ public class UserRequestTest {
         UserRequest randomUserRequest = getUserRequestAllRequiredField();
         randomUserRequest.setEmail("");
         token = userAPI.createUser(randomUserRequest)
-                .assertThat()
-                .statusCode(SC_FORBIDDEN)
-                .and()
-                .body("success", equalTo(false))
-                .and()
-                .body("message", equalTo("Email, password and name are required fields"))
-                .extract()
-                .path("accessToken");
+           .assertThat()
+           .statusCode(SC_FORBIDDEN)
+           .and()
+           .body("success", equalTo(false))
+           .and()
+           .body("message", equalTo("Email, password and name are required fields"))
+           .extract()
+           .path("accessToken");
     }
 
     @Test
@@ -90,14 +89,14 @@ public class UserRequestTest {
         UserRequest userRequest = getUserRequestAllRequiredField();
         userRequest.setName("");
         token = userAPI.createUser(userRequest)
-                .assertThat()
-                .statusCode(SC_FORBIDDEN)
-                .and()
-                .body("success", equalTo(false))
-                .and()
-                .body("message", equalTo("Email, password and name are required fields"))
-                .extract()
-                .path("accessToken");
+           .assertThat()
+           .statusCode(SC_FORBIDDEN)
+           .and()
+           .body("success", equalTo(false))
+           .and()
+           .body("message", equalTo("Email, password and name are required fields"))
+           .extract()
+           .path("accessToken");
     }
 
     @Test
@@ -107,13 +106,13 @@ public class UserRequestTest {
         UserRequest userRequest = getUserRequestAllRequiredField();
         userRequest.setPassword("");
         token = userAPI.createUser(userRequest)
-                .assertThat()
-                .statusCode(SC_FORBIDDEN)
-                .and()
-                .body("success", equalTo(false))
-                .and()
-                .body("message", equalTo("Email, password and name are required fields"))
-                .extract()
-                .path("accessToken");
+           .assertThat()
+           .statusCode(SC_FORBIDDEN)
+           .and()
+           .body("success", equalTo(false))
+           .and()
+           .body("message", equalTo("Email, password and name are required fields"))
+           .extract()
+           .path("accessToken");
     }
 }
